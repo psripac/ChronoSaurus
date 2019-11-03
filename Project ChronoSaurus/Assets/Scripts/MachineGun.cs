@@ -5,6 +5,10 @@ public class MachineGun : MonoBehaviour
     public float damage = 25f;
     public float range = 200f;
 
+    public ParticleSystem MuzzleFlash;
+    public ParticleSystem cartridgeEjection;
+
+
     public Camera fpsCam;
 
     // Update is called once per frame
@@ -22,6 +26,10 @@ public class MachineGun : MonoBehaviour
 
     void Shoot()
     {
+        MuzzleFlash.Play();
+        cartridgeEjection.Play();
+
+
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
