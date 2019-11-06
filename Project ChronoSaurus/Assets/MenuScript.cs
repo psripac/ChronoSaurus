@@ -17,21 +17,19 @@ public class MenuScript : MonoBehaviour
         origin_y = Screen.height / 2 - buttonHeight * 2;
     }
 
-    void OnGUI()
-    {
-        if (GUI.Button(new Rect(origin_x, origin_y, buttonWidth, buttonHeight), "Chronosaurus Survival"))
-        {
-            Application.LoadLevel(1);
-        }
-        if (GUI.Button(new Rect(origin_x, origin_y + buttonHeight + 10, buttonWidth, buttonHeight), "Exit"))
-        {
-#if UNITY_EDITOR
-
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-        }
-
+    void OnGUI() {
+    	if(GUI.Button(new Rect(origin_x,origin_y,buttonWidth,buttonHeight),"Chronosaurus Level 1 ")) {
+    		Application.LoadLevel(1);
+    	}
+    	if(GUI.Button(new Rect(origin_x,origin_y+buttonHeight+10,buttonWidth,buttonHeight),"Chronosaurus Level 2")) {
+    		Application.LoadLevel(2);
+    	}
+    	if(GUI.Button(new Rect(origin_x,origin_y+buttonHeight*2+20,buttonWidth,buttonHeight),"Exit")) {
+    		#if UNITY_EDITOR
+    			UnityEditor.EditorApplication.isPlaying = false;
+    		#else
+    			Application.Quit();
+    		#endif
+    	}
     }
 }
