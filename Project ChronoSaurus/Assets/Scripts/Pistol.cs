@@ -9,8 +9,13 @@ public class Pistol : MonoBehaviour
     public ParticleSystem MuzzleFlash;
     public ParticleSystem cartridgeEjection;
 
+    Vector3 lookPos;
 
-    public Camera fpsCam;
+    public GameObject bulletPrefab;
+    public GameObject aimAt;
+    public GameObject bulletSpawn;
+
+    public float BULLET_BASE_SPEED = 1.0f;
 
     // Update is called once per frame
     void Update()
@@ -22,29 +27,29 @@ public class Pistol : MonoBehaviour
     }
 
 
-
-
-
     void Shoot()
     {
         MuzzleFlash.Play();
         cartridgeEjection.Play();
 
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        RaycastHit hit;
-        if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+        RaycastHit hit0;
+
+        if (Physics.Raycast(ray, out hit0, 100))
         {
-            Debug.Log(hit.transform.name);
-
-            Target target = hit.transform.GetComponent<Target>();
-
-            
-
-            if (target != null)
-            {
-                target.TakeDamage(damage);
-            }
+            lookPos = hit0.point;
         }
+
+        Vector3 lookDir = lookPos - transform.position;
+        lookDir.y = 0;
+
+        transform.LookAt(transform.position + lookDir, Vector3.up);
+
+        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, Quaternion.identity);
+        bullet.GetComponent<BulletImpact>().velocity = aimAt.transform.forward * (BULLET_BASE_SPEED);
+        bullet.transform.Rotate(0, 0, Mathf.Atan2(lookDir.z, lookDir.x) * Mathf.Rad2Deg);
+        Destroy(bullet, 1f);
     }
 
 
