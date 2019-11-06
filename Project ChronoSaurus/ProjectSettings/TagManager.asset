@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Creature
   - Fire
   layers:
   - Default
@@ -15,7 +14,7 @@ TagManager:
   - UI
   - 
   - 
-  - Floor
+  - 
   - 
   - 
   - 
