@@ -16,8 +16,8 @@ public class Projectile : MonoBehaviour
     void Update()
     {
 
-        
-        if (Input.GetMouseButtonDown(0))
+
+        if (Input.GetButtonDown("Fire1"))
         {
             Debug.Log("Pressed primary button.");
 
@@ -26,7 +26,7 @@ public class Projectile : MonoBehaviour
             clone = (Rigidbody)Instantiate(projectile, Spawnpoint.position, projectile.rotation);
 
 
-            
+
 
 
             clone.velocity = Spawnpoint.TransformDirection(Vector3.forward * 20);

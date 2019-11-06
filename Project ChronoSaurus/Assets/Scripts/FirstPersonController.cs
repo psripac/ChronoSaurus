@@ -10,11 +10,11 @@ public class FirstPersonController : MonoBehaviour
 	private Rigidbody rbody;
 	private float jumpHeight;
 	private int doubleJump = 0;
-    private float speed = 2f;
+    private float speed = 5f;
 
-    private float rotationSpeed = 1f;
-    private float rotationX = 0;
-    private float rotationY = 10f;
+    private float rotationSpeed = 2f;
+    private float rotationX = 1;
+    private float rotationY = 12f;
 
     //private AudioSource audio1;
 
@@ -22,7 +22,7 @@ public class FirstPersonController : MonoBehaviour
     void Start()
     {
         rbody = GetComponent<Rigidbody>();
-        jumpHeight = 6.0f;
+        jumpHeight = 4.0f;
         //audio1 = GetComponent<AudioSource>();
     }
 
