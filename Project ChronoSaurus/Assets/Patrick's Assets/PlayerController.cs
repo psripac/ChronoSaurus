@@ -41,5 +41,10 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(horizontal, 0, vertical);
 
         rigidBody.AddForce(movement * speed / Time.deltaTime);
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.LoadLevel(0);
+        }
     }
 }

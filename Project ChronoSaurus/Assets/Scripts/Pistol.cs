@@ -14,16 +14,21 @@ public class Pistol : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject aimAt;
     public GameObject bulletSpawn;
+    AudioSource gunshot;
 
     public float BULLET_BASE_SPEED = 1.0f;
 
     // Update is called once per frame
     void Update()
     {
+        gunshot = GetComponent<AudioSource>();
+   
         if (Input.GetButtonDown("Fire1"))
         {
             Shoot();
+            gunshot.Play();
         }
+
     }
 
 
