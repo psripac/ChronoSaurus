@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Ovirap : MonoBehaviour
 {
-    public float health = 100f;
+    public float maxHealth = 100f;
     public float Speed = 6f;
     public float AttackDamage = 10f;
     public float AttackSpeed = 2f;
@@ -10,6 +11,8 @@ public class Ovirap : MonoBehaviour
     public float minRange = 0f;
     public float maxRange = 0f;
     public float runRange = 0f;
+
+    private float health;
 
     Animator animate;
     public AudioSource deathsound;
@@ -24,6 +27,7 @@ public class Ovirap : MonoBehaviour
     void Start()
     {
         animate = GetComponentInChildren<Animator>();
+        health = maxHealth;
     }
 
     void FixedUpdate()
@@ -109,8 +113,10 @@ public class Ovirap : MonoBehaviour
     }
     public void takeDamage(float damage)
     {
-        health = health - damage;
+        health -= damage;
         Debug.Log(transform.name + " health: " + health);
+        float currentHealthPct = (float)health / (float)maxHealth;
+        GetComponentInChildren<HealthBar>().ChangeHealthBar(currentHealthPct);
         if (health <= 0 && isDead == false)
         {
             deathsound.Play();
