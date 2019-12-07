@@ -23,7 +23,7 @@ public class BulletImpact : MonoBehaviour
         transform.position = newPos;
 
         RaycastHit hit;
-        if (Physics.Raycast(currentPos, newPos, out hit, 100))
+        if (Physics.Raycast(currentPos, newPos, out hit, 10))
         {
             Debug.Log(hit.transform.name);
 
