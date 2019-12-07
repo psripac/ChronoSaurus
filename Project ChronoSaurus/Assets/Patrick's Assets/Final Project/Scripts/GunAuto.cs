@@ -27,7 +27,6 @@ public class GunAuto : MonoBehaviour
             Shoot();
             Debug.Log("Gun Firing...");
         }
-
     }
 
     void Shoot()
@@ -37,6 +36,4 @@ public class GunAuto : MonoBehaviour
         MuzzleFlash.Play();
         cartridgeEjection.Play();
     }
-
-
 }

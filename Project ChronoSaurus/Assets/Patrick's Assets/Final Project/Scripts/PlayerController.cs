@@ -7,7 +7,10 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rigidBody;
     private Animator animator;
+    public float health = 100f;
     public float speed = 4f;
+
+    public GameObject weapon;
 
     Vector3 lookPos;
     Vector3 movement;
@@ -40,8 +43,17 @@ public class PlayerController : MonoBehaviour
 
         movement = new Vector3(horizontal, 0, vertical);
 
-        animCharacter(movement, lookDir);
+        if (health <= 0)
+        {
+            lookPos = Vector3.zero;
+        }
 
+        animCharacter(movement, lookDir);
+    }
+
+    void Die()
+    {
+        animator.SetInteger("Idle", -1);
     }
 
     // Update is called once per frame
@@ -58,6 +70,14 @@ public class PlayerController : MonoBehaviour
     void moveCharacter(Vector3 direction)
     {
         rigidBody.velocity = direction*speed;
+
+        if (health <= 0)
+        {
+            Die();
+            rigidBody.velocity = Vector3.zero;
+            FindObjectOfType<GameManager>().EndGame();
+            Destroy(weapon);
+        }
     }
 
     void animCharacter(Vector3 moveTo, Vector3 lookTo)

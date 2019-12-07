@@ -30,8 +30,6 @@ public class SwitchWeapons : MonoBehaviour
                 selectedWeapon = transform.childCount - 1;
             else
                 selectedWeapon--;
-
-
         }
 
         //select weapons with number keys
@@ -54,8 +52,6 @@ public class SwitchWeapons : MonoBehaviour
             swapSound.Play();
             SelectWeapon();
         }
-
-
     }
 
     void SelectWeapon()
