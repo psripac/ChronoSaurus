@@ -1634,7 +1634,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   Speed: 2
-  AttackDamage: 0
+  AttackDamage: 10
+  AttackSpeed: 0.8
   HealthMultiplier: 0
   DamageMultiplier: 1
   target: {fileID: 1021288871}

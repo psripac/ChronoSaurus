@@ -80,6 +80,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void takeDamage(float attackDamage)
+    {
+        health = health - attackDamage;
+        Debug.Log("Took Damage!");
+        Debug.Log(health);
+    }
+
     void animCharacter(Vector3 moveTo, Vector3 lookTo)
     {
         Quaternion lookQuaternion = (Quaternion.LookRotation(lookTo, Vector3.up));
