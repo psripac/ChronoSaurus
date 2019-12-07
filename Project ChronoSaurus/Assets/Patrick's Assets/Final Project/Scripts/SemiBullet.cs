@@ -13,7 +13,7 @@ public class SemiBullet : MonoBehaviour
     void Start()
     {
         projectile = GetComponent<Rigidbody>();
-        damage = transform.GetComponentInParent<GunSemiAuto>().damage;
+        damage = FindObjectOfType<GunSemiAuto>().damage;
     }
 
     // Update is called once per frame
@@ -37,9 +37,20 @@ public class SemiBullet : MonoBehaviour
             {
                 Velocirap target = hit.transform.GetComponent<Velocirap>();
                 target.takeDamage(damage);
+                Destroy(gameObject);
             }
-
-            Destroy(gameObject);
+            if (hit.transform.name.Contains("Rex"))
+            {
+                Tyranno target = hit.transform.GetComponent<Tyranno>();
+                target.takeDamage(damage);
+                Destroy(gameObject);
+            }
+            if (hit.transform.name.Contains("Oviraptor"))
+            {
+                Ovirap target = hit.transform.GetComponent<Ovirap>();
+                target.takeDamage(damage);
+                Destroy(gameObject);
+            }
         }
         else
         {

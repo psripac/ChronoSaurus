@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8057547857530175521}
   - component: {fileID: 5871493146657820424}
+  - component: {fileID: -7411381288080682260}
   m_Layer: 0
   m_Name: SemiBullet 1
   m_TagString: Untagged
@@ -47,6 +48,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
+--- !u!136 &-7411381288080682260
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249059369353398345}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4044056809918632852
 GameObject:
   m_ObjectHideFlags: 0

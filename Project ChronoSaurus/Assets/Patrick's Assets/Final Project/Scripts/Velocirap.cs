@@ -7,15 +7,19 @@ public class Velocirap : MonoBehaviour
     public float AttackDamage = 10f;
     public float AttackSpeed = 2f;
 
-    public float HealthMultiplier = 1.0f;
-    public float DamageMultiplier = 1.0f;
+    public float minRange = 0f;
+    public float maxRange = 0f;
+    public float runRange = 0f;
 
     Animator animate;
+    public AudioSource deathsound;
 
     public Transform target;
-    public float disToTarget;
+    float disToTarget;
 
     private float NextAttackRate = 0f;
+    bool isDead = false;
+    bool isRunning = false;
 
     void Start()
     {
@@ -35,16 +39,16 @@ public class Velocirap : MonoBehaviour
             Invoke("StopAttacking", 1.0f);
 
         }
-        else if (disToTarget >= 2.0f && disToTarget <= 6.0f)
+        else if (disToTarget >= minRange && disToTarget <= runRange)
         {
             FollowPlayer();
             Invoke("StopAttacking", 1.0f);
         }
-        else if (disToTarget < 2.0f)
+        else if (disToTarget < minRange)
         {
             AttackPlayer();
         }
-        else if (disToTarget > 6.0f && disToTarget <= 12.0f)
+        else if (disToTarget > runRange && disToTarget <= maxRange)
         {
             RunToPlayer();
             Invoke("StopAttacking", 1.0f);
@@ -67,6 +71,11 @@ public class Velocirap : MonoBehaviour
         transform.LookAt(target, Vector3.up);
         transform.position += transform.forward * (Speed*2.0f) * Time.deltaTime;
         animate.SetInteger("Move", 2);
+        if (isRunning == false)
+        {
+            deathsound.Play();
+            isRunning = true;
+        }
     }
     void Death()
     {
@@ -102,5 +111,10 @@ public class Velocirap : MonoBehaviour
     {
         health = health - damage;
         Debug.Log(transform.name + " health: " + health);
+        if(health <= 0 && isDead == false)
+        {
+            deathsound.Play();
+            isDead = true;
+        }
     }
 }

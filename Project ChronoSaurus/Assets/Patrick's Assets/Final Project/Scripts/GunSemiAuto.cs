@@ -55,8 +55,8 @@ public class GunSemiAuto : MonoBehaviour
         Vector3 lookDir = lookPos - transform.position;
         lookDir.y = 0;
 
-        bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position, Quaternion.Euler(rotation*Time.deltaTime)) as GameObject;
-        bullet.transform.parent = transform;
+        bullet = Instantiate(bulletPrefab, bulletSpawn.transform.position,bulletSpawn.transform.rotation) as GameObject;
         bullet.GetComponent<SemiBullet>().velocity = aimAt.transform.forward * (BULLET_BASE_SPEED);
+        bullet.transform.Rotate(0, 0, Mathf.Atan2(lookDir.z, lookDir.x) * Mathf.Rad2Deg);
     }
 }

@@ -1,309 +1,120 @@
 ﻿using UnityEngine;
 
-public class Ovirap : Creature
+public class Ovirap : MonoBehaviour
 {
-    [Space(10)]
-    [Header("OVIRAPTOR SOUNDS")]
-    public AudioClip Waterflush;
-    public AudioClip Hit_jaw;
-    public AudioClip Hit_head;
-    public AudioClip Hit_tail;
-    public AudioClip Smallstep;
-    public AudioClip Smallsplash;
-    public AudioClip Idlecarn;
-    public AudioClip Swallow;
-    public AudioClip Bite;
-    public AudioClip Ovi1;
-    public AudioClip Ovi2;
-    public AudioClip Ovi3;
-    public AudioClip Ovi4;
-    public AudioClip Ovi5;
-    public AudioClip Ovi6;
-    Transform Spine0, Spine1, Spine2, Spine3, Spine4, Spine5, Neck0, Neck1, Neck2, Neck3, Head,
-    Tail0, Tail1, Tail2, Tail3, Tail4, Tail5, Tail6, Tail7, Tail8, Tail9, Tail10, Tail11, Arm1, Arm2,
-    Left_Hips, Right_Hips, Left_Leg, Right_Leg, Left_Foot0, Right_Foot0;
-    Vector3 dir = Vector3.zero;
+    public float health = 100f;
+    public float Speed = 6f;
+    public float AttackDamage = 10f;
+    public float AttackSpeed = 2f;
 
-    //*************************************************************************************************************************************************
-    //Get bone transforms
+    public float minRange = 0f;
+    public float maxRange = 0f;
+    public float runRange = 0f;
+
+    Animator animate;
+    public AudioSource deathsound;
+
+    public Transform target;
+    float disToTarget;
+
+    private float NextAttackRate = 0f;
+    bool isDead = false;
+    bool isRunning = false;
+
     void Start()
     {
-        Right_Hips = transform.Find("Ovi/root/pelvis/right leg0");
-        Right_Leg = transform.Find("Ovi/root/pelvis/right leg0/right leg1");
-        Right_Foot0 = transform.Find("Ovi/root/pelvis/right leg0/right leg1/right foot0");
-        Left_Hips = transform.Find("Ovi/root/pelvis/left leg0");
-        Left_Leg = transform.Find("Ovi/root/pelvis/left leg0/left leg1");
-        Left_Foot0 = transform.Find("Ovi/root/pelvis/left leg0/left leg1/left foot0");
-
-        Tail0 = transform.Find("Ovi/root/pelvis/tail0");
-        Tail1 = transform.Find("Ovi/root/pelvis/tail0/tail1");
-        Tail2 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2");
-        Tail3 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3");
-        Tail4 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3/tail4");
-        Tail5 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3/tail4/tail5");
-        Tail6 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3/tail4/tail5/tail6");
-        Tail7 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3/tail4/tail5/tail6/tail7");
-        Tail8 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3/tail4/tail5/tail6/tail7/tail8");
-        Tail9 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3/tail4/tail5/tail6/tail7/tail8/tail9");
-        Tail10 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3/tail4/tail5/tail6/tail7/tail8/tail9/tail10");
-        Tail11 = transform.Find("Ovi/root/pelvis/tail0/tail1/tail2/tail3/tail4/tail5/tail6/tail7/tail8/tail9/tail10/tail11");
-        Spine0 = transform.Find("Ovi/root/spine0");
-        Spine1 = transform.Find("Ovi/root/spine0/spine1");
-        Spine2 = transform.Find("Ovi/root/spine0/spine1/spine2");
-        Spine3 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3");
-        Spine4 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4");
-        Spine5 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4/spine5");
-        Arm1 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4/spine5/left arm0");
-        Arm2 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4/spine5/right arm0");
-        Neck0 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4/spine5/neck0");
-        Neck1 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4/spine5/neck0/neck1");
-        Neck2 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4/spine5/neck0/neck1/neck2");
-        Neck3 = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4/spine5/neck0/neck1/neck2/neck3");
-        Head = transform.Find("Ovi/root/spine0/spine1/spine2/spine3/spine4/spine5/neck0/neck1/neck2/neck3/head");
-
-        crouch_max = 2f;
-        ang_t = 0.09f;
-        yaw_max = 15f;
-        pitch_max = 9f;
+        animate = GetComponentInChildren<Animator>();
     }
 
-    //*************************************************************************************************************************************************
-    //Play sound
-    void OnCollisionStay(Collision col)
-    {
-        int rndPainsnd = Random.Range(0, 4); AudioClip painSnd = null;
-        switch (rndPainsnd) { case 0: painSnd = Ovi1; break; case 1: painSnd = Ovi2; break; case 2: painSnd = Ovi3; break; case 3: painSnd = Ovi5; break; }
-        ManageCollision(col, pitch_max, crouch_max, source, painSnd, Hit_jaw, Hit_head, Hit_tail);
-    }
-    void PlaySound(string name, int time)
-    {
-        if (time == currframe && lastframe != currframe)
-        {
-            switch (name)
-            {
-                case "Step":
-                    source[1].pitch = Random.Range(0.75f, 1.25f);
-                    if (IsInWater) source[1].PlayOneShot(Waterflush, Random.Range(0.25f, 0.5f));
-                    else if (IsOnWater) source[1].PlayOneShot(Smallsplash, Random.Range(0.25f, 0.5f));
-                    else if (IsOnGround) source[1].PlayOneShot(Smallstep, Random.Range(0.25f, 0.5f));
-                    lastframe = currframe; break;
-                case "Bite":
-                    source[1].pitch = Random.Range(1.0f, 1.25f); source[1].PlayOneShot(Bite, 0.5f);
-                    lastframe = currframe; break;
-                case "Die":
-                    source[1].pitch = Random.Range(0.8f, 1.0f); source[1].PlayOneShot(IsOnWater | IsInWater ? Smallsplash : Smallstep, 1.0f);
-                    lastframe = currframe; IsDead = true; break;
-                case "Food":
-                    source[0].pitch = Random.Range(3.0f, 3.5f); source[0].PlayOneShot(Swallow, 0.025f);
-                    lastframe = currframe; break;
-                case "Repose":
-                    source[0].pitch = Random.Range(3.0f, 3.5f); source[0].PlayOneShot(Idlecarn, 0.25f);
-                    lastframe = currframe; break;
-                case "Call":
-                    source[0].pitch = Random.Range(0.9F, 1.1F); source[0].PlayOneShot(Ovi4, 1.0f);
-                    lastframe = currframe; break;
-                case "AtkA":
-                    int rnd1 = Random.Range(0, 2); source[0].pitch = Random.Range(1.0f, 1.25f);
-                    if (rnd1 == 0) source[0].PlayOneShot(Ovi2, 1.0f);
-                    else source[0].PlayOneShot(Ovi3, 1.0f);
-                    lastframe = currframe; break;
-                case "AtkB":
-                    int rnd2 = Random.Range(0, 2); source[0].pitch = Random.Range(1.0f, 1.25f);
-                    if (rnd2 == 0) source[0].PlayOneShot(Ovi1, 1.0f);
-                    else source[0].PlayOneShot(Ovi6, 1.0f);
-                    lastframe = currframe; break;
-                case "Growl":
-                    int rnd3 = Random.Range(0, 2); source[0].pitch = Random.Range(1.0f, 1.25f);
-                    if (rnd3 == 0) source[0].PlayOneShot(Ovi5, 1.0f);
-                    else source[0].PlayOneShot(Ovi6, 1.0f);
-                    lastframe = currframe; break;
-            }
-        }
-    }
-
-    //*************************************************************************************************************************************************
-    // Add forces to the Rigidbody
     void FixedUpdate()
     {
-        StatusUpdate(); if (!IsActive | AnimSpeed == 0.0f) { body.Sleep(); return; }
-        OnReset = false; OnAttack = false; IsConstrained = false;
+        disToTarget = Mathf.Sqrt(Mathf.Pow((transform.position.z - target.position.z), 2) + Mathf.Pow((transform.position.x - target.position.x), 2));
+    }
 
-        //Set mass
-        if (IsInWater) { if (Health > 0) anm.SetInteger("Move", 2); body.mass = 2; body.drag = 4; body.angularDrag = 4; }
-        else { body.mass = 1; body.drag = 4; body.angularDrag = 4; }
-
-        //Set Y position
-        if (IsOnGround | IsInWater | IsOnWater)
+    void Update()
+    {
+        if (health <= 0)
         {
-            if (IsOnGround | IsInWater) anm.SetBool("OnGround", true);
-            dir = new Vector3(transform.forward.x, 0, transform.forward.z);
-            body.AddForce((Vector3.up * Size) * (posY - transform.position.y), ForceMode.VelocityChange);
+            Death();
+            Invoke("StopAttacking", 1.0f);
+
+        }
+        else if (disToTarget >= minRange && disToTarget <= runRange)
+        {
+            FollowPlayer();
+            Invoke("StopAttacking", 1.0f);
+        }
+        else if (disToTarget < minRange)
+        {
+            AttackPlayer();
+        }
+        else if (disToTarget > runRange && disToTarget <= maxRange)
+        {
+            RunToPlayer();
+            Invoke("StopAttacking", 1.0f);
         }
         else
         {
-            body.AddForce((Vector3.up * Size) * -256, ForceMode.Acceleration);
-            anm.SetBool("OnGround", false);
+            animate.SetInteger("Move", 0);
         }
 
-        //Stopped
-        if (NextAnm.IsName("Ovi|IdleA") | CurrAnm.IsName("Ovi|IdleA") | CurrAnm.IsName("Ovi|Die"))
-        {
-            if (CurrAnm.IsName("Ovi|Die")) { OnReset = true; if (!IsDead) { PlaySound("AtkB", 2); PlaySound("Die", 12); } }
-        }
-
-        //Jump
-        else if (CurrAnm.IsName("Ovi|IdleJumpStart") | CurrAnm.IsName("Ovi|RunJumpStart") | CurrAnm.IsName("Ovi|JumpIdle") |
-            CurrAnm.IsName("Ovi|IdleJumpEnd") | CurrAnm.IsName("Ovi|RunJumpEnd") | CurrAnm.IsName("Ovi|JumpAtk"))
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, anm.GetFloat("Turn"), transform.eulerAngles.z), ang_t);
-            if (CurrAnm.IsName("Ovi|IdleJumpStart") | CurrAnm.IsName("Ovi|RunJumpStart"))
-            {
-                if (CurrAnm.normalizedTime > 0.4) { body.AddForce((Vector3.up * 8) * Size, ForceMode.VelocityChange); } else OnJump = true;
-                if (!anm.GetInteger("Move").Equals(0) && CurrAnm.IsName("Ovi|RunJumpStart")) body.AddForce(dir * 160 * Size * anm.speed);
-                PlaySound("Step", 1); PlaySound("Step", 2);
-            }
-            else if (CurrAnm.IsName("Ovi|IdleJumpEnd") | CurrAnm.IsName("Ovi|RunJumpEnd"))
-            {
-                if (CurrAnm.IsName("Ovi|RunJumpEnd")) body.AddForce(dir * 160 * Size * anm.speed);
-                body.velocity = new Vector3(body.velocity.x, 0.0f, body.velocity.z); OnJump = false;
-                PlaySound("Step", 3); PlaySound("Step", 4);
-            }
-            else if (CurrAnm.IsName("Ovi|JumpAtk"))
-            {
-                if (anm.GetInteger("Move").Equals(1) | anm.GetInteger("Move").Equals(2)) body.AddForce(dir * 160 * Size * anm.speed, ForceMode.Acceleration);
-                OnAttack = true; PlaySound("AtkB", 1); PlaySound("Bite", 9);
-                body.velocity = new Vector3(body.velocity.x, body.velocity.y > 0 ? body.velocity.y : 0, body.velocity.z);
-            }
-            else if (anm.GetInteger("Move").Equals(1) | anm.GetInteger("Move").Equals(2)) body.AddForce(dir * 160 * Size * anm.speed, ForceMode.Acceleration);
-        }
-
-        //Forward
-        else if (NextAnm.IsName("Ovi|Walk") | CurrAnm.IsName("Ovi|Walk") | CurrAnm.IsName("Ovi|WalkGrowl"))
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, anm.GetFloat("Turn"), transform.eulerAngles.z), ang_t);
-            body.AddForce(transform.forward * 32 * Size * anm.speed);
-            if (CurrAnm.IsName("Ovi|Walk")) { PlaySound("Step", 6); PlaySound("Step", 14); }
-            else if (CurrAnm.IsName("Ovi|WalkGrowl")) { PlaySound("Growl", 2); PlaySound("Step", 6); PlaySound("Step", 14); }
-        }
-
-        //Running
-        else if (NextAnm.IsName("Ovi|Run") | CurrAnm.IsName("Ovi|Run") |
-           CurrAnm.IsName("Ovi|RunGrowl") | CurrAnm.IsName("Ovi|RunAtk1") |
-           (CurrAnm.IsName("Ovi|RunAtk2") && CurrAnm.normalizedTime < 0.9) |
-           (CurrAnm.IsName("Ovi|IdleAtk3") && CurrAnm.normalizedTime > 0.5 && CurrAnm.normalizedTime < 0.9))
-        {
-            roll = Mathf.Clamp(Mathf.Lerp(roll, spineX * 15.0f, 0.1f), -30f, 30f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, anm.GetFloat("Turn"), transform.eulerAngles.z), ang_t);
-            body.AddForce(transform.forward * 160 * Size * anm.speed);
-            if (CurrAnm.IsName("Ovi|Run")) { PlaySound("Step", 4); PlaySound("Step", 12); }
-            else if (CurrAnm.IsName("Ovi|RunGrowl")) { PlaySound("AtkB", 2); PlaySound("Step", 4); PlaySound("Step", 12); }
-            else if (CurrAnm.IsName("Ovi|RunAtk1")) { OnAttack = true; PlaySound("AtkB", 2); PlaySound("Step", 4); PlaySound("Step", 12); }
-            else if (CurrAnm.IsName("Ovi|RunAtk2") | CurrAnm.IsName("Ovi|IdleAtk3"))
-            { OnAttack = true; PlaySound("AtkA", 2); PlaySound("Step", 4); PlaySound("Bite", 9); PlaySound("Step", 12); }
-        }
-
-        //Backward
-        else if (NextAnm.IsName("Ovi|Walk-") | NextAnm.IsName("Ovi|WalkGrowl-") |
-                    CurrAnm.IsName("Ovi|Walk-") | CurrAnm.IsName("Ovi|WalkGrowl-"))
-        {
-            if (CurrAnm.normalizedTime > 0.25 && CurrAnm.normalizedTime < 0.45 |
-             CurrAnm.normalizedTime > 0.75 && CurrAnm.normalizedTime < 0.9)
-            {
-                body.AddForce(transform.forward * -32 * Size * anm.speed);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, anm.GetFloat("Turn"), transform.eulerAngles.z), ang_t);
-            }
-            if (CurrAnm.IsName("Ovi|WalkGrowl-")) { PlaySound("Growl", 1); PlaySound("Step", 6); PlaySound("Step", 13); }
-            else { PlaySound("Step", 6); PlaySound("Step", 13); }
-        }
-
-        //Strafe/Turn right
-        else if (NextAnm.IsName("Ovi|Strafe-") | CurrAnm.IsName("Ovi|Strafe-"))
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, anm.GetFloat("Turn"), transform.eulerAngles.z), ang_t);
-            body.AddForce(transform.right * 16 * Size * anm.speed);
-            PlaySound("Step", 6); PlaySound("Step", 14);
-        }
-
-        //Strafe/Turn left
-        else if (NextAnm.IsName("Ovi|Strafe+") | CurrAnm.IsName("Ovi|Strafe+"))
-        {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, anm.GetFloat("Turn"), transform.eulerAngles.z), ang_t);
-            body.AddForce(transform.right * -16 * Size * anm.speed);
-            PlaySound("Step", 6); PlaySound("Step", 14);
-        }
-
-        //Various
-        else if (CurrAnm.IsName("Ovi|IdleAtk3")) { OnAttack = true; transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, anm.GetFloat("Turn"), transform.eulerAngles.z), ang_t); PlaySound("AtkB", 1); }
-        else if (CurrAnm.IsName("Ovi|GroundAtk")) { OnAttack = true; PlaySound("AtkB", 2); PlaySound("Bite", 4); }
-        else if (CurrAnm.IsName("Ovi|IdleAtk1") | CurrAnm.IsName("Ovi|IdleAtk2"))
-        { OnAttack = true; transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, anm.GetFloat("Turn"), transform.eulerAngles.z), ang_t); PlaySound("AtkB", 2); PlaySound("Bite", 9); }
-        else if (CurrAnm.IsName("Ovi|ToSleep")) { OnReset = true; IsConstrained = true; }
-        else if (CurrAnm.IsName("Ovi|Sleep")) { OnReset = true; IsConstrained = true; PlaySound("Repose", 1); }
-        else if (CurrAnm.IsName("Ovi|EatA")) { OnReset = true; IsConstrained = true; PlaySound("Food", 1); }
-        else if (CurrAnm.IsName("Ovi|EatB")) { OnReset = true; IsConstrained = true; PlaySound("Bite", 3); }
-        else if (CurrAnm.IsName("Ovi|EatC")) OnReset = true;
-        else if (CurrAnm.IsName("Ovi|IdleB")) { PlaySound("AtkB", 1); PlaySound("Bite", 7); PlaySound("Bite", 9); PlaySound("Bite", 11); }
-        else if (CurrAnm.IsName("Ovi|IdleC")) PlaySound("Growl", 1);
-        else if (CurrAnm.IsName("Ovi|IdleD")) { PlaySound("Call", 1); PlaySound("Call", 4); PlaySound("Call", 8); }
-        else if (CurrAnm.IsName("Ovi|IdleE")) { OnReset = true; PlaySound("Bite", 4); PlaySound("Bite", 7); PlaySound("Bite", 9); }
-        else if (CurrAnm.IsName("Ovi|Die-")) { OnReset = true; PlaySound("AtkA", 1); IsDead = false; }
     }
 
-    void LateUpdate()
+    void FollowPlayer()
     {
-        //*************************************************************************************************************************************************
-        // Bone rotation
-        if (!IsActive) return;
+        transform.LookAt(target, Vector3.up);
+        transform.position += transform.forward * Speed * Time.deltaTime;
+        animate.SetInteger("Move", 1);
+    }
+    void RunToPlayer()
+    {
+        transform.LookAt(target, Vector3.up);
+        transform.position += transform.forward * (Speed * 2.0f) * Time.deltaTime;
+        animate.SetInteger("Move", 2);
+        if (isRunning == false)
+        {
+            deathsound.Play();
+            isRunning = true;
+        }
+    }
+    void Death()
+    {
+        animate.SetInteger("Idle", -1);
+        animate.SetInteger("Move", 0);
+        Invoke("KillDino", 5.0f);
+    }
+    void AttackPlayer()
+    {
+        transform.LookAt(target, Vector3.up);
+        animate.SetBool("Attack", true);
+        animate.SetInteger("Move", 0);
+        if (Time.time >= NextAttackRate)
+        {
+            NextAttackRate = Time.time + 1f / AttackSpeed;
+            Damage();
+        }
 
-        TakeDamageAnim(Quaternion.Euler(lastHit, 0, 0));
-
-        //Spine rotation
-        RotateBone(60f);
-        float headZ = -headY * headX / yaw_max;
-        Spine0.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Spine1.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Spine2.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Spine3.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Spine4.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Spine5.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        //Arms rotation
-        Arm1.rotation *= Quaternion.Euler(headY * 8, 0, 0);
-        Arm2.rotation *= Quaternion.Euler(0, headY * 8, 0);
-        Neck0.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Neck1.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Neck2.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Neck3.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        Head.rotation *= Quaternion.Euler(-headY, headZ, headX);
-        //Tail rotation
-        Tail0.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail1.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail2.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail3.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail4.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail5.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail6.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail7.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail8.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail9.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail10.rotation *= Quaternion.Euler(0, 0, -spineX);
-        Tail11.rotation *= Quaternion.Euler(0, 0, -spineX);
-        //Legs rotation
-        roll = Mathf.Lerp(roll, 0.0f, ang_t);
-        Right_Hips.rotation *= Quaternion.Euler(-roll, 0, 0);
-        Left_Hips.rotation *= Quaternion.Euler(0, roll, 0);
-        HeadPos = Head;
-
-        //Check for ground layer
-        GetGroundPos(IkType.SmBiped, Right_Hips, Right_Leg, Right_Foot0, Left_Hips, Left_Leg, Left_Foot0);
-
-        //*************************************************************************************************************************************************
-        // CPU
-        if (UseAI && Health != 0) { AICore(1, 2, 3, 4, 5, 6, 7); }
-        //*************************************************************************************************************************************************
-        // Human
-        else if (Health != 0) { GetUserInputs(1, 2, 3, 4, 5, 6, 7); }
-        //*************************************************************************************************************************************************
-        //Dead
-        else { anm.SetBool("Attack", false); anm.SetInteger("Move", 0); anm.SetInteger("Idle", -1); }
+    }
+    void StopAttacking()
+    {
+        animate.SetBool("Attack", false);
+    }
+    void KillDino()
+    {
+        Destroy(gameObject);
+    }
+    void Damage()
+    {
+        target.GetComponent<PlayerController>().takeDamage(AttackDamage);
+    }
+    public void takeDamage(float damage)
+    {
+        health = health - damage;
+        Debug.Log(transform.name + " health: " + health);
+        if (health <= 0 && isDead == false)
+        {
+            deathsound.Play();
+            isDead = true;
+        }
     }
 }

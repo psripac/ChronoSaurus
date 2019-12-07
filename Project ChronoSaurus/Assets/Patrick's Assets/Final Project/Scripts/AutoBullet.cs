@@ -13,7 +13,7 @@ public class AutoBullet : MonoBehaviour
     void Start()
     {
         projectile = GetComponent<Rigidbody>();
-        damage = transform.GetComponentInParent<GunAuto>().damage;
+        damage = FindObjectOfType<GunAuto>().damage;
     }
 
     // Update is called once per frame
@@ -37,9 +37,21 @@ public class AutoBullet : MonoBehaviour
             {
                 Velocirap target = hit.transform.GetComponent<Velocirap>();
                 target.takeDamage(damage);
+                Destroy(gameObject);
             }
 
-            Destroy(gameObject);
+            if (hit.transform.name.Contains("Rex"))
+            {
+                Tyranno target = hit.transform.GetComponent<Tyranno>();
+                target.takeDamage(damage);
+                Destroy(gameObject);
+            }
+            if (hit.transform.name.Contains("Oviraptor"))
+            {
+                Ovirap target = hit.transform.GetComponent<Ovirap>();
+                target.takeDamage(damage);
+                Destroy(gameObject);
+            }
         }
         else
         {
