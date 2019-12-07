@@ -328,7 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 616144116}
   smoothSpeed: 1
-  offset: {x: 0, y: 20, z: -10}
+  offset: {x: 0, y: 2, z: -5}
 --- !u!1 &572973220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,6 +1638,7 @@ MonoBehaviour:
   HealthMultiplier: 0
   DamageMultiplier: 1
   target: {fileID: 1021288871}
+  disToTarget: 0
 --- !u!4 &1740409536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400042, guid: e6ab94ea3d7bfb840aa41680fa79570e,
