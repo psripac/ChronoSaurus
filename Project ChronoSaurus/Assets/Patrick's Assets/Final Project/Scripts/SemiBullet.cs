@@ -30,7 +30,7 @@ public class SemiBullet : MonoBehaviour
         transform.position = newPos;
 
         RaycastHit hit;
-        if (Physics.Raycast(currentPos, newPos, out hit, 10))
+        if (Physics.Raycast(currentPos, newPos, out hit, 1))
         {
             Debug.Log(hit.transform.name);
             if (hit.transform.name.Contains("Velociraptor"))

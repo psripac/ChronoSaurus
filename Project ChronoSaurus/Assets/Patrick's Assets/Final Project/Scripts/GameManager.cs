@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     bool gameHasEnded = false;
 
-    public float restartDelay = 3.0f;
+    public float restartDelay = 10.0f;
 
     public void EndGame()
     {
@@ -15,7 +15,10 @@ public class GameManager : MonoBehaviour
         {
             gameHasEnded = true;
             Debug.Log("Game Over");
-            Invoke("Restart", restartDelay);
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                Restart();
+            }
         }
     }
 

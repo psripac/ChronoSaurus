@@ -40,13 +40,13 @@ public class Velocirap : MonoBehaviour
         if (health <= 0)
         {
             Death();
-            Invoke("StopAttacking", 1.0f);
+            StopAttacking();
 
         }
         else if (disToTarget >= minRange && disToTarget <= runRange)
         {
             FollowPlayer();
-            Invoke("StopAttacking", 1.0f);
+            StopAttacking();
         }
         else if (disToTarget < minRange)
         {
@@ -55,7 +55,7 @@ public class Velocirap : MonoBehaviour
         else if (disToTarget > runRange && disToTarget <= maxRange)
         {
             RunToPlayer();
-            Invoke("StopAttacking", 1.0f);
+            StopAttacking();
         }
         else
         {

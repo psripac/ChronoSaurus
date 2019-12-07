@@ -4,11 +4,13 @@ public class SwitchWeapons : MonoBehaviour
 {
     public int selectedWeapon = 0;
     AudioSource swapSound;
+    public string weaponName="";
 
     // Start is called before the first frame update
     void Start()
     {
         SelectWeapon();
+        FindObjectOfType<SelectedWeapon>().WeaponName(weaponName);
     }
 
     // Update is called once per frame
@@ -36,10 +38,12 @@ public class SwitchWeapons : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             selectedWeapon = 0;
+            weaponName = "Bolt Rifle";
         }
         if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
         {
             selectedWeapon = 1;
+            weaponName = "Submachine Gun";
         }
         if (Input.GetKeyDown(KeyCode.Alpha3) && transform.childCount >= 3)
         {

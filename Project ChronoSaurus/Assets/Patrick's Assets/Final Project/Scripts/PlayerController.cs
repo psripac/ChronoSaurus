@@ -7,10 +7,15 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody rigidBody;
     private Animator animator;
-    public float health = 100f;
+    public float maxHealth = 100f;
     public float speed = 4f;
+    public float regenSpeed = 2f;
+    public float regenAmt = 2f;
+    public float regenDelay = 2f;
 
     public GameObject weapon;
+
+    public float health;
 
     Vector3 lookPos;
     Vector3 movement;
@@ -20,6 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         rigidBody = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
+        health = maxHealth;
     }
 
     private void Update()
@@ -48,7 +54,27 @@ public class PlayerController : MonoBehaviour
             lookPos = Vector3.zero;
         }
 
+        if(health < maxHealth && health > 0)
+        {
+            Regenerate();
+        }
+        else if(health > maxHealth)
+        {
+            health = maxHealth;
+        }
         animCharacter(movement, lookDir);
+
+        float currentHealthPct = (float)health / (float)maxHealth;
+        GetComponentInChildren<HealthBar>().ChangeHealthBar(currentHealthPct);
+    }
+
+    void Regenerate()
+    {
+        if(Time.time >= regenDelay)
+        {
+            regenDelay = Time.time + 1f / regenSpeed;
+            health += regenAmt;
+        }
     }
 
     void Die()
@@ -61,9 +87,9 @@ public class PlayerController : MonoBehaviour
     {
         moveCharacter(movement);
 
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKey(KeyCode.Return))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
