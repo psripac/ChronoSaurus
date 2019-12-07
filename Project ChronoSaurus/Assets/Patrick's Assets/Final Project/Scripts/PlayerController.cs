@@ -49,23 +49,7 @@ public class PlayerController : MonoBehaviour
 
         movement = new Vector3(horizontal, 0, vertical);
 
-        if (health <= 0)
-        {
-            lookPos = Vector3.zero;
-        }
-
-        if(health < maxHealth && health > 0)
-        {
-            Regenerate();
-        }
-        else if(health > maxHealth)
-        {
-            health = maxHealth;
-        }
         animCharacter(movement, lookDir);
-
-        float currentHealthPct = (float)health / (float)maxHealth;
-        GetComponentInChildren<HealthBar>().ChangeHealthBar(currentHealthPct);
     }
 
     void Regenerate()
@@ -87,10 +71,27 @@ public class PlayerController : MonoBehaviour
     {
         moveCharacter(movement);
 
-        if (Input.GetKey(KeyCode.Return))
+        if (Input.GetKey(KeyCode.Return) && health <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
+        if (health <= 0)
+        {
+            lookPos = Vector3.zero;
+        }
+
+        if (health < maxHealth && health > 0)
+        {
+            Regenerate();
+        }
+        else if (health > maxHealth)
+        {
+            health = maxHealth;
+        }
+
+        float currentHealthPct = (float)health / (float)maxHealth;
+        GetComponentInChildren<HealthBar>().ChangeHealthBar(currentHealthPct);
     }
 
     void moveCharacter(Vector3 direction)
