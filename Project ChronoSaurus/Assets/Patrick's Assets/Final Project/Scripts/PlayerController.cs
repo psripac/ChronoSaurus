@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log(health);
     }
 
+
     void animCharacter(Vector3 moveTo, Vector3 lookTo)
     {
         Quaternion lookQuaternion = (Quaternion.LookRotation(lookTo, Vector3.up));

@@ -2,7 +2,7 @@
 
 public class Velocirap : MonoBehaviour
 {
-    public float Health = 100f;
+    public float health = 100f;
     public float Speed = 6f;
     public float AttackDamage = 10f;
     public float AttackSpeed = 2f;
@@ -25,11 +25,15 @@ public class Velocirap : MonoBehaviour
     void FixedUpdate()
     {
         disToTarget = Mathf.Sqrt(Mathf.Pow((transform.position.z - target.position.z), 2) + Mathf.Pow((transform.position.x - target.position.x), 2));
+    }
 
-        if (Health <= 0)
+    void Update()
+    {
+        if (health <= 0)
         {
             Death();
             Invoke("StopAttacking", 1.0f);
+
         }
         else if (disToTarget >= 2.0f && disToTarget <= 6.0f)
         {
@@ -50,11 +54,6 @@ public class Velocirap : MonoBehaviour
             animate.SetInteger("Move", 0);
         }
 
-    }
-
-    void LateUpdate()
-    {
-        
     }
 
     void FollowPlayer()
@@ -98,5 +97,10 @@ public class Velocirap : MonoBehaviour
     void Damage()
     {
         target.GetComponent<PlayerController>().takeDamage(AttackDamage);
+    }
+    public void takeDamage(float damage)
+    {
+        health = health - damage;
+        Debug.Log(transform.name + " health: " + health);
     }
 }

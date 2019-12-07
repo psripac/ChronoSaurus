@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1000012871492402
+--- !u!1 &1249059369353398345
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,51 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4000014292305892}
-  - component: {fileID: 95000012264860904}
+  - component: {fileID: 8057547857530175521}
+  - component: {fileID: 5871493146657820424}
   m_Layer: 0
-  m_Name: Bullet2(1)
+  m_Name: SemiBullet 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4000014292305892
+--- !u!4 &8057547857530175521
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012871492402}
+  m_GameObject: {fileID: 1249059369353398345}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.679, z: 1.147}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
-  - {fileID: 4000011977604540}
-  - {fileID: 4000011902009838}
+  - {fileID: 4068550749026748311}
+  - {fileID: 797141855769106097}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95000012264860904
-Animator:
-  serializedVersion: 3
+--- !u!114 &5871493146657820424
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012871492402}
+  m_GameObject: {fileID: 1249059369353398345}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 5633705dc90ee46448834efc7f8fda28, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5cf6d74f934dc5347b65b2abfcb45717, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &1000012881135766
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d403262ad9a5e24487480debd6755e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
+--- !u!1 &4044056809918632852
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60,36 +55,36 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4000011977604540}
-  - component: {fileID: 137000010420380250}
+  - component: {fileID: 4068550749026748311}
+  - component: {fileID: 2788874022204337300}
   m_Layer: 0
-  m_Name: Bullet2
+  m_Name: Bullet1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4000011977604540
+--- !u!4 &4068550749026748311
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012881135766}
+  m_GameObject: {fileID: 4044056809918632852}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7605368, y: 0.7605368, z: 0.7605368}
+  m_LocalScale: {x: 0.88533247, y: 0.88533247, z: 0.88533247}
   m_Children: []
-  m_Father: {fileID: 4000014292305892}
+  m_Father: {fileID: 8057547857530175521}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &137000010420380250
+--- !u!137 &2788874022204337300
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012881135766}
+  m_GameObject: {fileID: 4044056809918632852}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -100,7 +95,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fc0e52ec46c8685419a3afc53ee966e8, type: 2}
+  - {fileID: 2100000, guid: a9b4fec9d71bd2147b7c657e369a5689, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -125,16 +120,16 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: 5633705dc90ee46448834efc7f8fda28, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 44c4e7f330952134eae5e89e9caf1fa5, type: 3}
   m_Bones:
-  - {fileID: 4000011902009838}
+  - {fileID: 797141855769106097}
   m_BlendShapeWeights: []
-  m_RootBone: {fileID: 4000011902009838}
+  m_RootBone: {fileID: 797141855769106097}
   m_AABB:
-    m_Center: {x: -0.22062075, y: 0.000000007450581, z: 0}
-    m_Extent: {x: 0.22062075, y: 0.07774954, z: 0.06733307}
+    m_Center: {x: -0.39144102, y: 0.000000007450581, z: -0.000000011175871}
+    m_Extent: {x: 0.39144102, y: 0.07166327, z: 0.062062215}
   m_DirtyAABB: 0
---- !u!1 &1000012890570390
+--- !u!1 &7210270879487954243
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,25 +137,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4000011902009838}
+  - component: {fileID: 797141855769106097}
   m_Layer: 0
-  m_Name: Bullet2_Bone
+  m_Name: Bullet1_Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4000011902009838
+--- !u!4 &797141855769106097
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012890570390}
+  m_GameObject: {fileID: 7210270879487954243}
   m_LocalRotation: {x: -0.000000047078487, y: 0.000000047078487, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children: []
-  m_Father: {fileID: 4000014292305892}
+  m_Father: {fileID: 8057547857530175521}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
