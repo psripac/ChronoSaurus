@@ -12,7 +12,7 @@ public class GunAuto : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject bulletSpawn;
     GameObject pc;
-    WaitForSecondsRealtime wait;
+    AudioSource gunshot;
 
     public float BULLET_BASE_SPEED = 1.0f;
 
@@ -32,6 +32,8 @@ public class GunAuto : MonoBehaviour
 
     void Shoot()
     {
+        gunshot = GetComponent<AudioSource>();
+        gunshot.Play();
         MuzzleFlash.Play();
         cartridgeEjection.Play();
     }

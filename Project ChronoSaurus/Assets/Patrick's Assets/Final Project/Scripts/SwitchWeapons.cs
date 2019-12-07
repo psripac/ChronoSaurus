@@ -3,6 +3,7 @@
 public class SwitchWeapons : MonoBehaviour
 {
     public int selectedWeapon = 0;
+    AudioSource swapSound;
 
     // Start is called before the first frame update
     void Start()
@@ -49,8 +50,9 @@ public class SwitchWeapons : MonoBehaviour
 
         if (previousSelectedWeapon != selectedWeapon)
         {
+            swapSound = GetComponent<AudioSource>();
+            swapSound.Play();
             SelectWeapon();
-
         }
 
 
