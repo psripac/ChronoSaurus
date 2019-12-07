@@ -10,7 +10,7 @@ public class SwitchWeapons : MonoBehaviour
     void Start()
     {
         SelectWeapon();
-        FindObjectOfType<SelectedWeapon>().WeaponName(weaponName);
+
     }
 
     // Update is called once per frame
