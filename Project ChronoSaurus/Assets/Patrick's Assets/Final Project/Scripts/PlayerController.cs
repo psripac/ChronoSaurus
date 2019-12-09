@@ -50,6 +50,11 @@ public class PlayerController : MonoBehaviour
         movement = new Vector3(horizontal, 0, vertical);
 
         animCharacter(movement, lookDir);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     void Regenerate()
